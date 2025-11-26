@@ -1,34 +1,34 @@
 import React, { useState } from 'react'
 import logo from '../assets/images/logo.png'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import {CaptainDataContext} from '../context/CaptainDataContext'
+import { CaptainDataContext } from '../context/captainContext'
 const CaptainLogin = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-    const navigate=useNavigate()
+  const navigate = useNavigate()
 
-    const [captainData,setCaptainData] = React.useContext(CaptainDataContext)
+  const { captain, setCaptain } = React.useContext(CaptainDataContext)
 
-    const submitHandler = async (e)=>{
+  const submitHandler = async (e) => {
     e.preventDefault()
     const captainData = {
-        email:email,
-        password:password
+      email: email,
+      password: password
     }
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/captains/login`,captainData)
-    if (response.data === 200){
-        const data = response.data
-        setCaptainData(data.captain)
-        localStorage.setItem('captainToken',data.token)
-        navigate('/CaptainHome')
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captainData)
+    if (response.status === 200) {
+      const data = response.data
+      setCaptain(data.captain)
+      localStorage.setItem('captainToken', data.token)
+      navigate('/CaptainHome')
     }
 
     setEmail('')
     setPassword('')
-    }
-    return (
+  }
+  return (
     <div className='p-7 h-screen flex flex-col justify-between'>
       <div>
         <img className='w-16 mb-10' src={logo} alt="" />

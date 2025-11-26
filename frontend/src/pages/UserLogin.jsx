@@ -3,27 +3,27 @@ import logo from '../assets/images/logo.png'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import {UserContext} from '../context/userContext'
+import { UserDataContext } from '../context/userContext'
 const UserLogin = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const [userData,setUserData] = useState({})
+  const [userData, setUserData] = useState({})
 
   const navigate = useNavigate()
-  const { user, setUser } = React.useContext(UserContext) 
+  const { user, setUser } = React.useContext(UserDataContext)
 
-  const submitHandler = async (e)=>{
+  const submitHandler = async (e) => {
     e.preventDefault()
     const userData = {
       email: email,
       password: password
-    } 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`,userData)
+    }
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
     if (response.status === 200) {
       const data = response.data
       setUser(data.user)
-      localStorage.setItem('token',data.token)
+      localStorage.setItem('token', data.token)
       navigate('/Home')
     }
 

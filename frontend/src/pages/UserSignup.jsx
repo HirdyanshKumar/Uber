@@ -1,46 +1,46 @@
 import React from 'react'
 import logo from '../assets/images/logo.png'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import UserContext from '../context/userContext'
+import { UserDataContext } from '../context/userContext'
 
 const UserSignup = () => {
-    const [firstName, setFirstName] = React.useState('')
-    const [lastName, setLastName] = React.useState('')
-    const [email, setEmail] = React.useState('')
-    const [password, setPassword] = React.useState('')
+  const [firstName, setFirstName] = React.useState('')
+  const [lastName, setLastName] = React.useState('')
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
 
 
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    const { user, setUser } = React.useContext(UserContext)
+  const { user, setUser } = React.useContext(UserDataContext)
 
-    const submitHandler = async (e)=>{
-        e.preventDefault()
-        const newUser = {
-          fullname:{
-            firstname:firstName,
-            lastname:lastName
-          },
-            email:email,
-            password:password
-        }
-
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`,newUser)
-
-        if(response.status===201){
-          const data = response.data
-          setUser(data.user)
-          localStorage.setItem('token',data.token)
-          navigate('/Home')
-        }
-        setEmail('')
-        setPassword('')
-        setFirstName('')
-        setLastName('')
+  const submitHandler = async (e) => {
+    e.preventDefault()
+    const newUser = {
+      fullname: {
+        firstname: firstName,
+        lastname: lastName
+      },
+      email: email,
+      password: password
     }
 
-return (
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
+
+    if (response.status === 201) {
+      const data = response.data
+      setUser(data.user)
+      localStorage.setItem('token', data.token)
+      navigate('/Home')
+    }
+    setEmail('')
+    setPassword('')
+    setFirstName('')
+    setLastName('')
+  }
+
+  return (
     <div>
       <div className='p-7 h-screen flex flex-col justify-between'>
         <div>
