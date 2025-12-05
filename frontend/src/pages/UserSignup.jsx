@@ -1,19 +1,25 @@
-import React from 'react'
-import logo from '../assets/images/logo.png'
+import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { UserDataContext } from '../context/userContext'
+import { UserDataContext } from '../context/UserContext'
+
+
 
 const UserSignup = () => {
-  const [firstName, setFirstName] = React.useState('')
-  const [lastName, setLastName] = React.useState('')
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
-
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const [ firstName, setFirstName ] = useState('')
+  const [ lastName, setLastName ] = useState('')
+  const [ userData, setUserData ] = useState({})
 
   const navigate = useNavigate()
 
-  const { user, setUser } = React.useContext(UserDataContext)
+
+
+  const { user, setUser } = useContext(UserDataContext)
+
+
+
 
   const submitHandler = async (e) => {
     e.preventDefault()
@@ -32,19 +38,21 @@ const UserSignup = () => {
       const data = response.data
       setUser(data.user)
       localStorage.setItem('token', data.token)
-      navigate('/Home')
+      navigate('/home')
     }
+
+
     setEmail('')
-    setPassword('')
     setFirstName('')
     setLastName('')
-  }
+    setPassword('')
 
+  }
   return (
     <div>
       <div className='p-7 h-screen flex flex-col justify-between'>
         <div>
-          <img className='w-16 mb-10' src={logo} alt="" />
+          <img className='w-16 mb-10' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQy-OIkA6In0fTvVwZADPmFFibjmszu2A0g&s" alt="" />
 
           <form onSubmit={(e) => {
             submitHandler(e)
@@ -103,7 +111,7 @@ const UserSignup = () => {
             >Create account</button>
 
           </form>
-          <p className='text-center'>Already have a account? <Link to='/UserLogin' className='text-blue-600'>Login here</Link></p>
+          <p className='text-center'>Already have a account? <Link to='/login' className='text-blue-600'>Login here</Link></p>
         </div>
         <div>
           <p className='text-[10px] leading-tight'>This site is protected by reCAPTCHA and the <span className='underline'>Google Privacy
